@@ -1,7 +1,6 @@
 import scratchattach as scratch3
 import json
 import datetime
-
 import asyncio
 from typing import Callable, Optional, Awaitable
 
@@ -10,8 +9,9 @@ config = {
     "session": "SESSION ID HERE",
     "target_user": "griffpatch",
     "whitelistEnabled": False,
-    "whitelist": ["username1", "username2"],  # Only used if whitelistEnabled is True
-    "commentsSynced": []  # List of comment IDs that have already been processed
+    "whitelist": ["username1", "username2"], 
+    "runAsAdmin": False, 
+    "commentsSynced": []
 }
 
 sessuion = None
@@ -33,7 +33,7 @@ def setup_scratch_session():
     session = scratch3.login_by_id(config["session"], username=config["username"])
     print("Logged in as", config["username"])
 
-async def poll_scratch_comments(username: str, callback: Callable[[dict], Awaitable[None]], interval: int = 30):
+async def poll_scratch_comments(username: str, callback: Callable[[dict], Awaitable[None]], interval: int = 2):
         """
         Polls the Scratch profile for new comments and fires callback when a new comment is posted.
         :param username: Scratch username to monitor
@@ -95,4 +95,12 @@ async def run_shell_command(command: str) -> str:
 
 if __name__ == "__main__":
     setup_scratch_session()
+    if config["runAsAdmin"]:
+        print("Warning: The remote shell is running with admin privileges. This means others could cause damage to your system or comprimise your device and network. Proceed with caution.")
+    if config["whitelistEnabled"]:
+        print("Whitelist is enabled. Only the following users can run commands:")
+        for user in config["whitelist"]:
+            print(f"- {user}")
+    if not config["whitelistEnabled"]:
+        print("Warning: Whitelist is disabled. This means anyone can run commands on your system. Proceed with caution.")
     asyncio.run(poll_scratch_comments(config["target_user"], parse_comment))
