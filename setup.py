@@ -33,7 +33,7 @@ def main():
         print("No config.json found, running setup...")
 
         print("Installing packages...")
-        os.system('pip install asyncio scratchattach')
+        os.system('pip install scratchattach')
 
         print("Setup:")
         config["session"] = input("Enter your session id (get it from https://scratch.mit.edu/): ")
