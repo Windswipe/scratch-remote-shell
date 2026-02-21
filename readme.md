@@ -1,7 +1,9 @@
 A simple Python server that fetches comments from Scratch and executes them as shell commands.
 
+## DISCLAIMER: Use at your own risk. I've had one Scratch account shadow banned and another muted while testing the server.
+
 # Requirements
-* Python
+* Python 3
 * Your Scratch session token. See https://github.com/TimMcCool/scratchattach/wiki/Get-your-session-id for a guide on how to get it.
 
 # Usage
